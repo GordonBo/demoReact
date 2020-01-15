@@ -52,23 +52,49 @@ const useStyles = makeStyles(theme => ({
 export default function Login(props) {
   const classes = useStyles();
   const [loginInfo, setLoginInfo] = useState({companyName:'',chguser:''});
+  const[buttonDisabled,changeButtonDisabled]=useState(true);  
+
+  useEffect(() =>{
+        if(loginInfo.companyName !== '' && loginInfo.chguser !==''){
+        changeButtonDisabled(false);
+        }else if(loginInfo.companyName === '' || loginInfo.chguser ===''){
+          changeButtonDisabled(true);
+        } 
+    })
+
+  const onchangeInfo = (e)=>{
+       const itemname=e.target.name;
+       const itemvalue = e.target.value;
+    setLoginInfo({...loginInfo,[itemname]:itemvalue})
+
+      
+    
+  }
+
+  /* const classes = useStyles();
+  const [loginInfo, setLoginInfo] = useState({companyName:'',chguser:''});
 
   const onchangeInfo = (e)=>{
        const itemname=e.target.name;
        const itemvalue = e.target.value;
     setLoginInfo({...loginInfo,[itemname]:itemvalue})
   }
-
+ */
    const subtmit =  (e, companyname,chg) =>{
        e.preventDefault();
         try{
             const url=`https://TrainingAPAC.jitterbit.cc/38695(DEV)/v1/getCustomerByCompany?chguser='${chg}'&company='${companyname}'`;
             axios.get(url).then(res=>res.data)
             .then((data) => {
+              if(data.id !== null){
                 props.setcity(data.city)
                 props.setAddress(data.address)
                 props.setCompanyname(data.companyName)
                 props.login(true)
+              }
+               else{
+                 alert("invalid username or password")
+               } 
             })
         }catch(err){
             console.error(err);
@@ -92,7 +118,7 @@ export default function Login(props) {
             required
             fullWidth
             id="companyName"
-            label="Company Name"
+            label="User Name"
             name="companyName"
             autoComplete="companyName"
             value={loginInfo.companyName}
@@ -107,7 +133,7 @@ export default function Login(props) {
             fullWidth
             name="chguser"
             label="chguser"
-            type="chguser"
+            type="password"
             id="chguser"
             value={loginInfo.chguser}
             onChange={(e)=>onchangeInfo(e)}
@@ -123,6 +149,7 @@ export default function Login(props) {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={buttonDisabled}
             className={classes.submit}
             onClick={(e)=>subtmit(e, loginInfo.companyName,loginInfo.chguser)}
           >

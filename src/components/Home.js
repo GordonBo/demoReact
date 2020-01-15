@@ -53,9 +53,12 @@ export default function Home(props) {
                 {props.address}
                 </Typography>
               </Grid>
+              <Grid item xs>
+                <Typography ></Typography>
               <Button onClick={()=>{props.logout(false)}} variant="contained" color="secondary">
               Logout
             </Button>
+            </Grid>
             </Grid>
 
           </Grid>
