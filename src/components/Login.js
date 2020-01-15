@@ -99,7 +99,7 @@ export default function Login(props) {
             onChange={(e)=>onchangeInfo(e)}
             autoFocus
           />
-        <p>{loginInfo.companyName}</p>
+     
           <TextField
             variant="outlined"
             margin="normal"
@@ -113,8 +113,7 @@ export default function Login(props) {
             onChange={(e)=>onchangeInfo(e)}
             autoComplete="current-password"
           />
-          <p>{loginInfo.chguser}</p>
-          <p>{props.cityName}</p>
+      
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
